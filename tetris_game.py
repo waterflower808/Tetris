@@ -116,11 +116,11 @@ class Tetris(QMainWindow):
             return
 
         key = event.key()
-
+        
         if key == Qt.Key_P:
             self.pause()
             return
-
+            
         if self.isPaused:
             return
         elif key == Qt.Key_Left:
@@ -180,7 +180,7 @@ class SidePanel(QFrame):
 
 class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
-    speed = 100
+    speed = 10
 
     def __init__(self, parent, gridSize):
         super().__init__(parent)
