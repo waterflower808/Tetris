@@ -12,17 +12,17 @@ class Shape(object):
     shapeO = 5
     shapeS = 6
     shapeZ = 7
-    shapeX = 8
+
     shapeCoord = (
         ((0, 0), (0, 0), (0, 0), (0, 0)),
-        ((0, -1), (0, 0), (0, 1), (0, 2)),
-        ((0, -1), (0, 0), (0, 1), (1, 1)),
-        ((0, -1), (0, 0), (0, 1), (-1, 1)),
-        ((0, -1), (0, 0), (0, 1), (1, 0)),
-        ((0, 0), (0, -1), (1, 0), (1, -1)),
-        ((0, 0), (0, -1), (-1, 0), (1, -1)),
-        ((0, 0), (0, -1), (1, 0), (-1, -1)),
-        ((0, 1), (0, 0), (0, 1), (1, -1)),
+        ((0, -1), (0, 0), (0, 1), (0, 2), (0, -2)),
+        ((0, -1), (0, 0), (0, 1), (1, 1),(0, 2)),
+        ((0, -1), (0, 0), (0, 1), (-1, 1),(1, -2)),
+        ((0, -1), (0, 0), (0, 1), (1, 0),(-1,0)),
+        ((0, 0), (1, 0), (-1, 0), (1, 1),(-1, -1)),
+        ((0, 0), (0, -1), (0, 1), (1, 1),(1, -1)),
+        ((0, 1), (0, 0), (1, 0), (1, -1),(2, -1))
+
     )
 
     def __init__(self, shape=0):
@@ -43,7 +43,7 @@ class Shape(object):
                 return ((-x, -y) for x, y in tmpCoords)
 
         if direction == 3:
-            if self.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS,shape.shapeX):
+            if self.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
                 return ((-y, x) for x, y in tmpCoords)
             else:
                 return ((y, -x) for x, y in tmpCoords)
@@ -154,9 +154,7 @@ class BoardData(object):
     def rotateLeft(self):
         if self.tryMoveCurrent((self.currentDirection - 1) % 4, self.currentX, self.currentY):
             self.currentDirection -= 1
-            self.currentDirection %= 4script
-
-
+            self.currentDirection %= 4
 
     def removeFullLines(self):
         newBackBoard = [0] * BoardData.width * BoardData.height
@@ -176,9 +174,7 @@ class BoardData(object):
 
     def mergePiece(self):
         for x, y in self.currentShape.getCoords(self.currentDirection, self.currentX, self.currentY):
-            self.backBoard[x + y * BoardData.width] script
-
-= self.currentShape.shape
+            self.backBoard[x + y * BoardData.width] = self.currentShape.shape
 
         self.currentX = -1
         self.currentY = -1
