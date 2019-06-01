@@ -137,8 +137,7 @@ class Tetris(QMainWindow):
         self.updateWindow()
 
 
-def drawSquare(painter, x, y, val, s):
-    colorTable = random_color()
+def drawSquare():
     lev = range(32,256,32)
     return tuple(random.choice(levels) for _ in range(3))
 
