@@ -116,11 +116,11 @@ class Tetris(QMainWindow):
             return
 
         key = event.key()
-        
+
         if key == Qt.Key_P:
             self.pause()
             return
-            
+
         if self.isPaused:
             return
         elif key == Qt.Key_Left:
@@ -138,44 +138,9 @@ class Tetris(QMainWindow):
 
 
 def drawSquare(painter, x, y, val, s):
-    colorTable = [0x000000, 0xCC6666, 0x66CC66, 0x6666CC,
-                  0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00]
-
-    if val == 0:
-        return
-
-    color = QColor(colorTable[val])
-    painter.fillRect(x + 1, y + 1, s - 2, s - 2, color)
-
-    painter.setPen(color.lighter())
-    painter.drawLine(x, y + s - 1, x, y)
-    painter.drawLine(x, y, x + s - 1, y)
-
-    painter.setPen(color.darker())
-    painter.drawLine(x + 1, y + s - 1, x + s - 1, y + s - 1)
-    painter.drawLine(x + s - 1, y + s - 1, x + s - 1, y + 1)
-
-
-class SidePanel(QFrame):
-    def __init__(self, parent, gridSize):
-        super().__init__(parent)
-        self.setFixedSize(gridSize * 5, gridSize * BOARD_DATA.height)
-        self.move(gridSize * BOARD_DATA.width, 0)
-        self.gridSize = gridSize
-
-    def updateData(self):
-        self.update()
-
-    def paintEvent(self, event):
-        painter = QPainter(self)
-        minX, maxX, minY, maxY = BOARD_DATA.nextShape.getBoundingOffsets(0)
-
-        dy = 3 * self.gridSize
-        dx = (self.width() - (maxX - minX) * self.gridSize) / 2
-
-        val = BOARD_DATA.nextShape.shape
-        for x, y in BOARD_DATA.nextShape.getCoords(0, 0, -minY):
-            drawSquare(painter, x * self.gridSize + dx, y * self.gridSize + dy, val, self.gridSize)
+    colorTable = random_color()
+    lev = range(32,256,32)
+    return tuple(random.choice(levels) for _ in range(3))
 
 
 class Board(QFrame):
