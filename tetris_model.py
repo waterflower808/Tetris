@@ -154,7 +154,7 @@ class BoardData(object):
     def rotateLeft(self):
         if self.tryMoveCurrent((self.currentDirection - 1) % 4, self.currentX, self.currentY):
             self.currentDirection -= 1
-            self.currentDirection %= 4script
+            self.currentDirection %= 4
 
 
 
@@ -176,7 +176,7 @@ class BoardData(object):
 
     def mergePiece(self):
         for x, y in self.currentShape.getCoords(self.currentDirection, self.currentX, self.currentY):
-            self.backBoard[x + y * BoardData.width] script
+            self.backBoard[x + y * BoardData.width]
 
 = self.currentShape.shape
 
