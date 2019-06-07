@@ -9,10 +9,11 @@ class Shape(object):
     shapeL = 2
     shapeJ = 3
     shapeT = 4
-    shapeO = 5
+    shapeP = 5
     shapeS = 6
     shapeZ = 7
     shapeX = 8
+
     shapeCoord = (
         ((0, 0), (0, 0), (0, 0), (0, 0)),
         ((0, -1), (0, 0), (0, 1), (0, 2),(0,-2)),
@@ -30,20 +31,20 @@ class Shape(object):
 
     def getRotatedOffsets(self, direction):
         tmpCoords = Shape.shapeCoord[self.shape]
-        if direction == 0 or self.shape == Shape.shapeO:
+        if direction == 0 or self.shape == Shape.shapeT:
             return ((x, y) for x, y in tmpCoords)
 
         if direction == 1:
             return ((-y, x) for x, y in tmpCoords)
 
         if direction == 2:
-            if self.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS):
+            if self.shape in (Shape.shapeI, Shape.shapeS):
                 return ((x, y) for x, y in tmpCoords)
             else:
                 return ((-x, -y) for x, y in tmpCoords)
 
         if direction == 3:
-            if self.shape in (Shape.shapeI, Shape.shapeZ, Shape.shapeS,shape.shapeX):
+            if self.shape in (Shape.shapeI, Shape.shapeS):
                 return ((-y, x) for x, y in tmpCoords)
             else:
                 return ((y, -x) for x, y in tmpCoords)
@@ -77,9 +78,9 @@ class BoardData(object):
         self.currentY = -1
         self.currentDirection = 0
         self.currentShape = Shape()
-        self.nextShape = Shape(random.randint(1, 7))
+        self.nextShape = Shape(random.randint(1, 8))
 
-        self.shapeStat = [0] * 8
+        self.shapeStat = [0] * 9
 
     def getData(self):
         return self.backBoard[:]
@@ -98,7 +99,7 @@ class BoardData(object):
             self.currentY = -minY
             self.currentDirection = 0
             self.currentShape = self.nextShape
-            self.nextShape = Shape(random.randint(1, 7))
+            self.nextShape = Shape(random.randint(1, 8))
             result = True
         else:
             self.currentShape = Shape()
@@ -176,9 +177,7 @@ class BoardData(object):
 
     def mergePiece(self):
         for x, y in self.currentShape.getCoords(self.currentDirection, self.currentX, self.currentY):
-            self.backBoard[x + y * BoardData.width]
-
-= self.currentShape.shape
+            self.backBoard[x + y * BoardData.width] = self.currentShape.shape
 
         self.currentX = -1
         self.currentY = -1
