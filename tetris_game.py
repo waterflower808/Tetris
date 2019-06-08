@@ -136,10 +136,28 @@ class Tetris(QMainWindow):
 
         self.updateWindow()
 
+def drawSquare(painter, x, y, val, s):
+    a = str(random.randrange(1,9))
+    b = str(random.randrange(1,9))
+    c = str(random.randrange(1,9))
+    d = str(random.randrange(1,9))
+    e = str(random.randrange(1,9))
+    f = str(random.randrange(1,9))
 
-def drawSquare():
-    lev = range(32,256,32)
-    return tuple(random.choice(levels) for _ in range(3))
+    colorTable = "0x"+a+b+c+d+e+f
+
+    print(colorTable)
+
+    color = QColor(colorTable)
+    painter.fillRect(x + 1, y + 1, s - 2, s - 2, color)
+
+    painter.setPen(color.lighter())
+    painter.drawLine(x, y + s - 1, x, y)
+    painter.drawLine(x, y, x + s - 1, y)
+
+    painter.setPen(color.darker())
+    painter.drawLine(x + 1, y + s - 1, x + s - 1, y + s - 1)
+    painter.drawLine(x + s - 1, y + s - 1, x + s - 1, y + 1)
 
 
 class Board(QFrame):
