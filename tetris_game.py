@@ -137,8 +137,18 @@ class Tetris(QMainWindow):
         self.updateWindow()
 
 
-    print(colorTable)
-   painter.setPen(color.lighter())
+def drawSquare(painter, x, y, val, s):
+
+    if val == 0:
+        return
+
+    r = lambda: random.randint(0,255)
+    colorTable = '#%02X%02X%02X' % (r(),r(),r())
+
+    color = QColor(colorTable)
+    painter.fillRect(x + 1, y + 1, s - 2, s - 2, color)
+
+    painter.setPen(color.lighter())
     painter.drawLine(x, y + s - 1, x, y)
     painter.drawLine(x, y, x + s - 1, y)
 
@@ -146,7 +156,29 @@ class Tetris(QMainWindow):
     painter.drawLine(x + 1, y + s - 1, x + s - 1, y + s - 1)
     painter.drawLine(x + s - 1, y + s - 1, x + s - 1, y + 1)
 
+    
+class SidePanel(QFrame):
+    def __init__(self, parent, gridSize):
+        super().__init__(parent)
+        self.setFixedSize(gridSize * 5, gridSize * BOARD_DATA.height)
+        self.move(gridSize * BOARD_DATA.width, 0)
+        self.gridSize = gridSize
 
+    def updateData(self):
+        self.update()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        minX, maxX, minY, maxY = BOARD_DATA.nextShape.getBoundingOffsets(0)
+
+        dy = 3 * self.gridSize
+        dx = (self.width() - (maxX - minX) * self.gridSize) / 2
+
+        val = BOARD_DATA.nextShape.shape
+        for x, y in BOARD_DATA.nextShape.getCoords(0, 0, -minY):
+            drawSquare(painter, x * self.gridSize + dx, y * self.gridSize + dy, val, self.gridSize)
+            
+            
 class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
     speed = 10
